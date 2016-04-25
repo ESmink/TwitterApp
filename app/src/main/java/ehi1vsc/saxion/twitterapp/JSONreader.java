@@ -1,0 +1,48 @@
+package ehi1vsc.saxion.twitterapp;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+/**
+ * Created by edwin_000 on 25/04/2016.
+ */
+public class JSONreader {
+
+    /**
+     * Reads an asset file and returns a string with the full contents.
+     *
+     * @param filename  The filename of the file to read.
+     * @return          The contents of the file.
+     * @throws IOException  If file could not be found or not read.
+     */
+    private String readAssetIntoString(String filename, Context context) throws IOException {
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+            InputStream is = context.getAssets().open(filename, AssetManager.ACCESS_BUFFER);
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
