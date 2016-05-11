@@ -3,10 +3,15 @@ package ehi1vsc.saxion.twitterapp;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 /**
  * Created by edwin_000 on 25/04/2016.
@@ -20,7 +25,7 @@ public class JSONreader {
      * @return          The contents of the file.
      * @throws IOException  If file could not be found or not read.
      */
-    private String readAssetIntoString(String filename, Context context) throws IOException {
+    private static String readAssetIntoString(String filename, Context context) throws IOException {
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
 
@@ -44,5 +49,21 @@ public class JSONreader {
             }
         }
         return sb.toString();
+    }
+
+    public static void readJSON(Context context){
+        try {
+            JSONObject object = new JSONObject(readAssetIntoString("tweets.json", context));
+            Model.getInstance().getTweets().clear();
+            for(int x =0 ; object.getJSONArray("statuses").length() > x;x++){
+                Model.getInstance().getTweets().add(
+                        new Tweet(object.getJSONArray("statuses").getJSONObject(x)));
+            }
+
+        }catch(IOException e){
+
+        }catch(org.json.JSONException e){
+
+        }
     }
 }
