@@ -3,7 +3,7 @@ package ehi1vsc.saxion.twitterapp.Tweet;
 /**
  * Created by Gijs on 11-5-2016.
  */
-public class Hashtag extends Entiteit {
+public class Hashtag extends Entity {
     private String text;
 
     public Hashtag(int start, int eind, String text) {
