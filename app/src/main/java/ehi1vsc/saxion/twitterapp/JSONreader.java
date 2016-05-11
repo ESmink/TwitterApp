@@ -61,9 +61,9 @@ public class JSONreader {
             }
 
         }catch(IOException e){
-
+            e.printStackTrace();
         }catch(org.json.JSONException e){
-
+            e.printStackTrace();
         }
     }
 }
