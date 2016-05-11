@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
+import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+
 /**
  * Created by edwin_000 on 11/05/2016.
  */

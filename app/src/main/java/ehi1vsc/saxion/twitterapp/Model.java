@@ -3,6 +3,8 @@ package ehi1vsc.saxion.twitterapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+
 /**
  * Created by edwin_000 on 25/04/2016.
  */
