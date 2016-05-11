@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+
 /**
  * Created by edwin_000 on 25/04/2016.
  */
