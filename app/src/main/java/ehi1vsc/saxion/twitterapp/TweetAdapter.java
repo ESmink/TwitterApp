@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -28,8 +27,8 @@ public class TweetAdapter extends ArrayAdapter<Tweet>{
                     .getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.tweetlayout, parent, false);
         }
+        //edit empty layout
 
-        ((TextView)view.findViewById(R.id.TweetTextTV)).setText(getItem(position).getText());
 
 
         return view;

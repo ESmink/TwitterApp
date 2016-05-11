@@ -26,16 +26,4 @@ public class Tweet {
         }
 
     }
-
-    public String getId_str() {
-        return id_str;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public ArrayList<JSONObject> getEntities() {
-        return entities;
-    }
 }
