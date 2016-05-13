@@ -1,5 +1,7 @@
 package ehi1vsc.saxion.twitterapp.Tweet;
 
+import org.json.JSONObject;
+
 import ehi1vsc.saxion.twitterapp.User;
 
 /**
@@ -8,7 +10,7 @@ import ehi1vsc.saxion.twitterapp.User;
 public class UserMention extends Entity {
     private User user;
 
-    public UserMention(int start, int eind) {
-        super(start, eind);
+    public UserMention(JSONObject jsonObject) {
+        super(jsonObject);
     }
 }

@@ -27,7 +27,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet>{
         if(view == null){
             LayoutInflater inflater = (LayoutInflater)getContext()
                     .getSystemService(Service.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.tweetlayout, parent, false);
+            view = inflater.inflate(R.layout.tweetlayout, parent, false);
         }
 
         ((TextView)view.findViewById(R.id.TweetTextTV)).setText(getItem(position).getText());
