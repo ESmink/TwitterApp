@@ -7,4 +7,8 @@ public class Media extends Entity {
     private String id_str;
     private String media_url, url, display_url;
     private String type;
+
+    public Media(int start, int eind) {
+        super(start, eind);
+    }
 }

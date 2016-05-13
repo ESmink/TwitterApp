@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,6 +32,10 @@ public class TweetAdapter extends ArrayAdapter<Tweet>{
 
         ((TextView)view.findViewById(R.id.TweetTextTV)).setText(getItem(position).getText());
 
+        ImageLoader loader = new ImageLoader();
+
+        loader.execute("http://pbs.twimg.com/profile_images/705130898421915649/AQvFyiNu_normal.jpg",
+                view.findViewById(R.id.TweetAvatarIV));
 
         return view;
     }

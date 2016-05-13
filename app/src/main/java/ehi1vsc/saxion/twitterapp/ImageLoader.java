@@ -12,17 +12,24 @@ import java.net.URL;
  * Created by edwin_000 on 11/05/2016.
  */
 public class ImageLoader extends AsyncTask {
+    Drawable image;
+    ImageView view;
 
     @Override
     protected Object doInBackground(Object[] params) {
         String url = (String)params[0];
-        ImageView view = (ImageView)params[1];
+        view = (ImageView)params[1];
         try {
             InputStream is = (InputStream) new URL(url).getContent();
-            view.setImageDrawable(Drawable.createFromStream(is, ""));
+            image = Drawable.createFromStream(is, "");
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Object o) {
+        view.setImageDrawable(image);
     }
 }
