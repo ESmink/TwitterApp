@@ -9,7 +9,7 @@ import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
  * Created by edwin_000 on 25/04/2016.
  */
 public class Model {
-    private ArrayList<Tweet> tweets = new ArrayList<>();
+    private ArrayList<Tweet> tweets = new ArrayList();
 
     private static Model ourInstance = new Model();
 

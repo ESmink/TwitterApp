@@ -12,8 +12,8 @@ import java.net.URL;
  * Created by edwin_000 on 11/05/2016.
  */
 public class ImageLoader extends AsyncTask {
-    Drawable image;
-    ImageView view;
+    private Drawable image;
+    private ImageView view;
 
     @Override
     protected Object doInBackground(Object[] params) {

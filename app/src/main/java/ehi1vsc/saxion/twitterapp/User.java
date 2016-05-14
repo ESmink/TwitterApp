@@ -1,6 +1,5 @@
 package ehi1vsc.saxion.twitterapp;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,18 +7,33 @@ import org.json.JSONObject;
  * Created by Gijs on 11-5-2016.
  */
 public class User {
-    private String screen_name, name, id_str;
-    private int[] indices = new int[2];
+    private String screen_name, name, id_str, profile_image_url;
 
-    public User(JSONObject jsonObject, JSONArray jsonArray) {
+    public User(JSONObject jsonObject) {
         try {
-            this.screen_name = jsonObject.getString("screen_name");
-            this.name = jsonObject.getString("name");
-            this.id_str = jsonObject.getString("id_str");
-            this.indices[0] = jsonArray.getInt(0);
-            this.indices[1] = jsonArray.getInt(1);
+            screen_name = jsonObject.getString("screen_name");
+            name = jsonObject.getString("name");
+            id_str = jsonObject.getString("id_str");
+            profile_image_url = jsonObject.getString("profile_image_url");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getScreen_name() {
+        return screen_name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId_str() {
+        return id_str;
+    }
+
+    public String getProfile_image_url() {
+        return profile_image_url;
     }
 }
