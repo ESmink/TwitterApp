@@ -2,6 +2,10 @@ package ehi1vsc.saxion.twitterapp;
 
 import android.app.Service;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +34,15 @@ public class TweetAdapter extends ArrayAdapter<Tweet>{
             view = inflater.inflate(R.layout.tweetlayout, parent, false);
         }
 
-        ((TextView)view.findViewById(R.id.TweetTextTV)).setText(getItem(position).getText());
+        TextView text = (TextView) view.findViewById(R.id.TweetTextTV);
+        text.setText(Html.fromHtml(getItem(position).getText()));
+        text.setAutoLinkMask(Linkify.WEB_URLS);
 
-        ImageLoader loader = new ImageLoader();
+        ((TextView) view.findViewById(R.id.TweetDisplayTV)).setText(getItem(position).getUser().getScreen_name());
+        ((TextView) view.findViewById(R.id.TweetNameTV)).setText("@" + getItem(position).getUser().getName());
 
-        loader.execute("http://pbs.twimg.com/profile_images/705130898421915649/AQvFyiNu_normal.jpg",
-                view.findViewById(R.id.TweetAvatarIV));
+        ImageView imageView = (ImageView) view.findViewById(R.id.TweetAvatarIV);
+        imageView.setImageDrawable(getItem(position).getUser().getProfile_image(imageView, getContext()));
 
         return view;
     }
