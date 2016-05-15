@@ -1,5 +1,9 @@
 package ehi1vsc.saxion.twitterapp;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +12,7 @@ import org.json.JSONObject;
  */
 public class User {
     private String screen_name, name, id_str, profile_image_url;
+    private Drawable profile_image;
 
     public User(JSONObject jsonObject) {
         try {
@@ -33,7 +38,15 @@ public class User {
         return id_str;
     }
 
-    public String getProfile_image_url() {
-        return profile_image_url;
+    public Drawable getProfile_image(ImageView image, Context context) {
+        if(profile_image == null){
+            ImageLoader loader = new ImageLoader();
+            loader.execute(profile_image_url, this, image, context);
+        }
+        return profile_image;
+    }
+
+    public void setProfile_image(Drawable profile_image) {
+        this.profile_image = profile_image;
     }
 }

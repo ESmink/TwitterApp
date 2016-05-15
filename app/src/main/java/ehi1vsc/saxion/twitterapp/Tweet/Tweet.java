@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ehi1vsc.saxion.twitterapp.Model;
 import ehi1vsc.saxion.twitterapp.User;
 
 /**
@@ -21,25 +22,33 @@ public class Tweet {
             this.id_str = jsonObject.getString("id_str");
             this.text = jsonObject.getString("text");
 
-            int htmloffset = 0;
+            ArrayList<Htmltext> htmlList = new ArrayList<>();
+            JSONArray entity;
 
             //managing Hashtags
-            JSONArray hashtags = jsonObject.getJSONObject("entities").getJSONArray("hashtags");
-            for (int x = 0; hashtags.length() > x; x++) {
-                JSONArray indices = hashtags.getJSONObject(x).getJSONArray("indices");
-                text = text.substring(0, indices.getInt(0) + htmloffset) +
-                        "<font color='blue'>" +
-                        "#" + hashtags.getJSONObject(x).getString("text") +
-                        "</font>" +
-                        text.substring(indices.getInt(1) + htmloffset);
-                htmloffset += 26; //aantal html tekens extra in de text
+            entity = jsonObject.getJSONObject("entities").getJSONArray("hashtags");
+            for (int x = 0; entity.length() > x; x++) {
+                JSONArray indices = entity.getJSONObject(x).getJSONArray("indices");
+                // makes new Htmltext, then puts it in the list.
+                new Htmltext("<font color='blue'>#" + entity.getJSONObject(x).getString("text") +
+                        "</font>", indices.getInt(0), indices.getInt(1)).addToList(htmlList);
             }
 
             //managing Usermentions
-            //JSONArray usermentions = jsonObject.getJSONObject("entities").getJSONArray("");
+            entity = jsonObject.getJSONObject("entities").getJSONArray("user_mentions");
+            for (int x = 0; entity.length() > x; x++) {
+                JSONArray indices = entity.getJSONObject(x).getJSONArray("indices");
 
+                new Htmltext("<font color='green'>@" + entity.getJSONObject(x).getString("screen_name") +
+                        "</font>", indices.getInt(0), indices.getInt(1)).addToList(htmlList);
+            }
             //managing user
-             user = new User(jsonObject.getJSONObject("user"));
+            user = Model.getInstance().addUser(new User(jsonObject.getJSONObject("user")));
+
+            //merging text with Htmltexts
+            for (Htmltext html : htmlList) {
+                text = html.insert(text);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

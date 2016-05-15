@@ -10,17 +10,28 @@ import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
  */
 public class Model {
     private ArrayList<Tweet> tweets = new ArrayList();
+    private ArrayList<User> users = new ArrayList();
 
-    private static Model ourInstance = new Model();
+    private static Model ourInstance;
 
     public static Model getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new Model();
+        }
         return ourInstance;
     }
 
-    private Model() {
+    public List<Tweet> getTweets() {
+        return tweets;
     }
 
-    public List<Tweet> getTweets(){
-        return tweets;
+    public User addUser(User user) {
+        for (User current : users) {
+            if (user.getId_str().equals(current.getId_str())) {
+                return current;
+            }
+        }
+        users.add(user);
+        return user;
     }
 }
