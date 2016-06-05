@@ -7,7 +7,8 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ListView;
-import ehi1vsc.saxion.twitterapp.Oauth.Request_Token;
+
+import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,8 +19,11 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        Request_Token token = new Request_Token();
+        //Request_Token token = new Request_Token();
+        //GetBearerToken getBearerToken = new GetBearerToken();
 
+        BearerToken bearerToken = new BearerToken();
+        bearerToken.execute();
 
         ListView listview = (ListView)findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));

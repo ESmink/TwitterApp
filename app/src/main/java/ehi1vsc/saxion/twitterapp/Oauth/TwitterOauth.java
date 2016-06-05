@@ -1,7 +1,9 @@
 package ehi1vsc.saxion.twitterapp.Oauth;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +33,14 @@ public abstract class TwitterOauth extends AsyncTask {
                 con.setRequestProperty(keyValue[0], keyValue[1]);
             }
 
+            if (params[3] != null){
+                con.setDoOutput(true);
+                con.setFixedLengthStreamingMode(((byte[]) params[3]).length);
+                BufferedOutputStream os = new BufferedOutputStream(con.getOutputStream());
+                os.write(((byte[]) params[3]));
+                os.close();
+            }
+
             int responsecode = con.getResponseCode();
 
             BufferedReader in = new BufferedReader(
@@ -44,7 +54,8 @@ public abstract class TwitterOauth extends AsyncTask {
             in.close();
 
             //print result
-            System.out.println(response.toString());
+
+            Log.d("Our response", response.toString());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
