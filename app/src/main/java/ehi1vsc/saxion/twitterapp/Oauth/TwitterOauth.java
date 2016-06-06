@@ -3,12 +3,12 @@ package ehi1vsc.saxion.twitterapp.Oauth;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -17,6 +17,15 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by edwin_000 on 23/05/2016.
  */
 public abstract class TwitterOauth extends AsyncTask {
+    private String stringUrl;
+    private String requestMethod;
+    ArrayList<String[]> properties = new ArrayList<>();
+
+    public TwitterOauth(String stringUrl, String requestMethod) {
+        this.stringUrl = stringUrl;
+        this.requestMethod = requestMethod;
+    }
+
     /**
      * params:
      * 0 = String url
@@ -27,22 +36,16 @@ public abstract class TwitterOauth extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         try {
-            HttpsURLConnection con = (HttpsURLConnection) (new URL((String) params[0])).openConnection();
-            con.setRequestMethod((String) params[1]);
-            for (String[] keyValue : (List<String[]>) params[2]) {
+            //setting the header
+            HttpsURLConnection con = (HttpsURLConnection) (new URL(stringUrl)).openConnection();
+            con.setRequestMethod(requestMethod);
+            for (String[] keyValue : properties) {
                 con.setRequestProperty(keyValue[0], keyValue[1]);
             }
 
-            if (params[3] != null){
-                con.setDoOutput(true);
-                con.setFixedLengthStreamingMode(((byte[]) params[3]).length);
-                BufferedOutputStream os = new BufferedOutputStream(con.getOutputStream());
-                os.write(((byte[]) params[3]));
-                os.close();
-            }
+            Log.d("Response:", con.getResponseCode() + "");
 
-            int responsecode = con.getResponseCode();
-
+            //reading response
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -54,8 +57,7 @@ public abstract class TwitterOauth extends AsyncTask {
             in.close();
 
             //print result
-
-            Log.d("Our response", response.toString());
+            System.out.println(response.toString());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
