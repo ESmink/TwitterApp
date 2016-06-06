@@ -23,8 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        bearerToken = new BearerToken();
+        //new TwitterOauth().execute();
+
+        BearerToken bearerToken = new BearerToken();
         bearerToken.execute();
+        
         String token = bearerToken.getBearerToken();
 
         ListView listview = (ListView)findViewById(R.id.listView);
