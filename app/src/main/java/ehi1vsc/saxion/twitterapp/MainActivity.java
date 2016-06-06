@@ -6,15 +6,20 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
 import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
+import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 public class MainActivity extends AppCompatActivity {
 
     BearerToken bearerToken;
-    SearchTweets searchTweets;
+    SearchTweets searchTweets = new SearchTweets();
+    ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
         bearerToken = new BearerToken();
         bearerToken.execute();
-        String token = bearerToken.getBearerToken();
 
-        ListView listview = (ListView)findViewById(R.id.listView);
+        listview = (ListView)findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
     }
 
@@ -36,22 +40,25 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchTweets.execute(new String[]{bearerToken.getBearerToken(), query});
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchTweets.execute(new String[]{bearerToken.getBearerToken(), newText});
-
-                return true;
+                return false;
             }
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public static void setAdapter(ArrayList<Tweet> tweets){
+
     }
 }
