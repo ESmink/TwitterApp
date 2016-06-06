@@ -3,8 +3,12 @@ package ehi1vsc.saxion.twitterapp.Oauth;
 import android.os.AsyncTask;
 import android.util.Base64;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -20,6 +24,7 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
     private final static String API_KEY = "b5NRVMTKd9Y6JXjRlIAOGBnkG";
     private final static String API_SECRET = "ye1OOYSifhEjvUsR1adfJs4vLyO1Qi7XSRB96wNtHpTP6kGO5q";
     private final static String CHARSET_UTF_8 = "UTF-8";
+    private String bearerToken;
 
     @Override
     protected byte[] doInBackground(String... params) {
@@ -49,8 +54,11 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
             os.write(body);
             os.close();
 
-            int responseCode = conn.getResponseCode();
-            System.out.println("response: " + responseCode);
+            // get bearertoken
+            InputStream inputStream = conn.getInputStream();
+            String response = IOUtils.toString(inputStream, "UTF-8");
+            bearerToken = (String) new JSONObject(response).get("access_token");
+            IOUtils.closeQuietly(inputStream);
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -63,5 +71,9 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
         } finally {
             return body;
         }
+    }
+
+    public String getBearerToken() {
+        return bearerToken;
     }
 }

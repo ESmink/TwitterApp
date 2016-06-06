@@ -9,8 +9,12 @@ import android.view.MenuInflater;
 import android.widget.ListView;
 
 import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
+import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
 
 public class MainActivity extends AppCompatActivity {
+
+    BearerToken bearerToken;
+    SearchTweets searchTweets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        BearerToken bearerToken = new BearerToken();
+        bearerToken = new BearerToken();
         bearerToken.execute();
+        String token = bearerToken.getBearerToken();
 
         ListView listview = (ListView)findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
@@ -36,12 +41,14 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                searchTweets.execute(new String[]{bearerToken.getBearerToken(), newText});
+
+                return true;
             }
         });
 
