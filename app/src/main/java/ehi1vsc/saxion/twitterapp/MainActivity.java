@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.widget.ListView;
 
 import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
+import ehi1vsc.saxion.twitterapp.Oauth.TwitterOauth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        //Request_Token token = new Request_Token();
-        //GetBearerToken getBearerToken = new GetBearerToken();
+        //new TwitterOauth().execute();
 
         BearerToken bearerToken = new BearerToken();
         bearerToken.execute();
