@@ -19,9 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        //Request_Token token = new Request_Token();
-        //GetBearerToken getBearerToken = new GetBearerToken();
-
         BearerToken bearerToken = new BearerToken();
         bearerToken.execute();
 
