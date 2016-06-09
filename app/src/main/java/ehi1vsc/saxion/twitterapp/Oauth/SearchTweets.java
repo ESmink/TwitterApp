@@ -1,6 +1,10 @@
 package ehi1vsc.saxion.twitterapp.Oauth;
 
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -16,68 +20,69 @@ import java.util.ArrayList;
 
 import ehi1vsc.saxion.twitterapp.MainActivity;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
-import ehi1vsc.saxion.twitterapp.TweetAdapter;
 
 /**
  * Created by Gijs on 6-6-2016.
  */
-public class SearchTweets extends AsyncTask<String, Double, byte[]> {
+public class SearchTweets extends AsyncTask<MainActivity, Double, Object> {
 
     String response;
-    ArrayList<Tweet> tweets;
 
     @Override
-    protected byte[] doInBackground(String... params) {
-
+    protected MainActivity doInBackground(MainActivity... params) {
         try {
 
             // prepare request
-            URL url = new URL("https://api.twitter.com/1.1/search/tweets.json?q=" + params[1]);
+            URL url = new URL("https://api.twitter.com/1.1/search/tweets.json?q=" + params[0].text);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
             // set header
-            conn.addRequestProperty("Authorization", "Bearer " + params[0]);
+            conn.addRequestProperty("Authorization", "Bearer " + params[0].bearerToken.getBearerToken());
+
+            Log.d("responseCode: ", conn.getResponseCode() + "");
 
             // Set body
-            conn.setDoOutput(true);
-            byte[] body = "grant_type=client_credentials".getBytes("UTF-8");
-            conn.setFixedLengthStreamingMode(body.length);
-            BufferedOutputStream os = new BufferedOutputStream(conn.getOutputStream());
-            os.write(body);
-            os.close();
+//            conn.setDoOutput(true);
+//            byte[] body = "grant_type=client_credentials".getBytes("UTF-8");
+//            conn.setFixedLengthStreamingMode(body.length);
+//            BufferedOutputStream os = new BufferedOutputStream(conn.getOutputStream());
+//            os.write(body);
+//            os.close();
 
             // get tweets
             InputStream inputStream = conn.getInputStream();
             response = IOUtils.toString(inputStream, "UTF-8");
             IOUtils.closeQuietly(inputStream);
 
-            return body;
+            return params[0];
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new byte[0];
+        return null;
     }
 
+
     @Override
-    protected void onPostExecute(byte[] bytes) {
+    protected void onPostExecute(Object o) {
         try {
 
+
             JSONObject jsonObject = new JSONObject(response);
-            tweets = new ArrayList<>();
-            for (int i = 0; i < jsonObject.getJSONArray("statuses").length(); i++) {
-                tweets.add(new Tweet(jsonObject.getJSONArray("statuses").getJSONObject(i)));
+
+            ArrayList<Tweet> tweets = new ArrayList<>();
+            for (int x = 0; jsonObject.getJSONArray("statuses").length() > x; x++) {
+                tweets.add(new Tweet(jsonObject.getJSONArray("statuses").getJSONObject(x)));
             }
+
+            ((MainActivity)o).setSearchTweetsList(tweets);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public ArrayList<Tweet> getTweets() {
-            return tweets;
     }
 }
