@@ -1,15 +1,18 @@
 package ehi1vsc.saxion.twitterapp;
 
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
 import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
+import ehi1vsc.saxion.twitterapp.Oauth.TwitterOauth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,12 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        //new TwitterOauth().execute();
-
-        BearerToken bearerToken = new BearerToken();
-        bearerToken.execute();
-        
-        String token = bearerToken.getBearerToken();
+        if(Ref.accessToken == null) {
+            new TwitterOauth().execute(this);
+        }
+//        BearerToken bearerToken = new BearerToken();
+//        bearerToken.execute();
+//
+//        String token = bearerToken.getBearerToken();
 
         ListView listview = (ListView)findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
@@ -54,7 +58,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        menu.addSubMenu("to profile");
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getTitle().equals("to profile")){
+            Intent intent = new Intent(MainActivity.this, UserActivity.class);
+            startActivity(intent);
+        }
+        return false;
     }
 }

@@ -20,7 +20,6 @@ public class TwitterAPI extends DefaultApi10a {
 
     @Override
     public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        //return "https://api.twitter.com/oauth/authorize?oauth_token=" + requestToken.getToken();
-        return "https://api.twitter.com/oauth/authorize";
+        return "https://api.twitter.com/oauth/authorize?oauth_token=" + requestToken.getToken();
     }
 }

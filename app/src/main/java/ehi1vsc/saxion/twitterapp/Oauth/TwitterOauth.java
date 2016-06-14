@@ -1,21 +1,16 @@
 package ehi1vsc.saxion.twitterapp.Oauth;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-
+import ehi1vsc.saxion.twitterapp.LoginActivity;
 import ehi1vsc.saxion.twitterapp.Model;
+import ehi1vsc.saxion.twitterapp.Ref;
 
 /**
  * Created by edwin_000 on 23/05/2016.
@@ -24,9 +19,10 @@ public class TwitterOauth extends AsyncTask {
 
     @Override
     protected Object doInBackground(Object[] params) {
-        OAuth1RequestToken rToken =  Model.getInstance().getTwitterService().getRequestToken();
-        String url = Model.getInstance().getTwitterService().getAuthorizationUrl(rToken);
-        Log.d("user url =" , url);
+        Ref.requestToken = Model.getInstance().getTwitterService().getRequestToken();
+        Intent intent = new Intent(((AppCompatActivity) params[0]), LoginActivity.class);
+        intent.putExtra("tokenSite", Model.getInstance().getTwitterService().getAuthorizationUrl(Ref.requestToken));
+        ((AppCompatActivity) params[0]).startActivity(intent);
         return null;
     }
 }
