@@ -55,7 +55,7 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
             // get bearertoken
             InputStream inputStream = conn.getInputStream();
             String response = IOUtils.toString(inputStream, "UTF-8");
-            bearerToken = (String) new JSONObject(response).get("access_token");
+            Ref.bearertoken = (String) new JSONObject(response).get("access_token");
             IOUtils.closeQuietly(inputStream);
 
         } catch (UnsupportedEncodingException e) {
@@ -71,7 +71,4 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
         }
     }
 
-    public String getBearerToken() {
-        return bearerToken;
-    }
 }

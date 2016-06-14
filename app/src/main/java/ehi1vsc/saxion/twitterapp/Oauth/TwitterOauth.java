@@ -15,7 +15,7 @@ import ehi1vsc.saxion.twitterapp.Ref;
 /**
  * Created by edwin_000 on 23/05/2016.
  */
-public class TwitterOauth extends AsyncTask {
+public class TwitterOauth extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected Object doInBackground(Object[] params) {

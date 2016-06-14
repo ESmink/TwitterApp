@@ -9,8 +9,6 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.util.Objects;
-
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -29,13 +27,13 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("heading to ", url);
                 if (url.startsWith("https://www.google")) {
                     Uri uri = Uri.parse(url);
-                    Ref.vertifier = uri.getQueryParameter("oauth_verifier");
+                    Ref.verifier = uri.getQueryParameter("oauth_verifier");
                     new AsyncTask<Object, Object, Object>(){
 
                         @Override
                         protected Object doInBackground(Object[] params) {
                             Ref.accessToken = Model.getInstance().getTwitterService().getAccessToken(
-                                    Ref.requestToken, Ref.vertifier);
+                                    Ref.requestToken, Ref.verifier);
                             Log.d("access token:" , Ref.accessToken.getToken());
                             return null;
                         }

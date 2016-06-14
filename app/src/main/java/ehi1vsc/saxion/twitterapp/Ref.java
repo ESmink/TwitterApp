@@ -10,7 +10,8 @@ public class Ref {
 
     public static OAuth1RequestToken requestToken;
     public static OAuth1AccessToken accessToken;
-    public static String vertifier;
+    public static String verifier;
+    public static String bearertoken;
 
     public final static String API_KEY = "b5NRVMTKd9Y6JXjRlIAOGBnkG";
     public final static String API_SECRET = "ye1OOYSifhEjvUsR1adfJs4vLyO1Qi7XSRB96wNtHpTP6kGO5q";
