@@ -29,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        bearerToken = new BearerToken();
+        BearerToken bearerToken = new BearerToken();
         bearerToken.execute();
+        String token = bearerToken.getBearerToken();
 
         listview = (ListView)findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
