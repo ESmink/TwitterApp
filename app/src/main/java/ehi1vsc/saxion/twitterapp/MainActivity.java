@@ -1,11 +1,13 @@
 package ehi1vsc.saxion.twitterapp;
 
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.net.URLEncoder;
@@ -13,11 +15,11 @@ import java.util.ArrayList;
 
 import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
 import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
+import ehi1vsc.saxion.twitterapp.Oauth.TwitterOauth;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 public class MainActivity extends AppCompatActivity {
 
-    public BearerToken bearerToken;
     public String text;
     //SearchTweets searchTweets = new SearchTweets();
     ListView listview;
@@ -29,9 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        BearerToken bearerToken = new BearerToken();
-        bearerToken.execute();
-        String token = bearerToken.getBearerToken();
+        if(Ref.accessToken == null) {
+            new TwitterOauth().execute(this);
+        }
+        if(Ref.bearertoken == null) {
+            new BearerToken().execute();
+        }
 
         listview = (ListView)findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
@@ -57,8 +62,17 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        menu.addSubMenu("to profile");
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("to profile")) {
+            Intent intent = new Intent(MainActivity.this, UserActivity.class);
+            startActivity(intent);
+        }
+        return false;
     }
 
     public void setSearchTweetsList(ArrayList<Tweet> tweets){

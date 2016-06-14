@@ -1,16 +1,12 @@
 package ehi1vsc.saxion.twitterapp.Oauth;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -19,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import ehi1vsc.saxion.twitterapp.MainActivity;
+import ehi1vsc.saxion.twitterapp.Ref;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 /**
@@ -38,7 +35,7 @@ public class SearchTweets extends AsyncTask<MainActivity, Double, Object> {
             conn.setRequestMethod("GET");
 
             // set header
-            conn.addRequestProperty("Authorization", "Bearer " + params[0].bearerToken.getBearerToken());
+            conn.addRequestProperty("Authorization", "Bearer " + Ref.bearertoken);
 
             Log.d("responseCode: ", conn.getResponseCode() + "");
 
