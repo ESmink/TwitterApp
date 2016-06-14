@@ -1,22 +1,22 @@
 package ehi1vsc.saxion.twitterapp.Oauth;
 
-import android.os.AsyncTask;
+        import android.os.AsyncTask;
 
-import org.apache.commons.io.IOUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.apache.commons.io.IOUtils;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
+        import java.io.BufferedOutputStream;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.net.HttpURLConnection;
+        import java.net.MalformedURLException;
+        import java.net.URL;
+        import java.util.ArrayList;
 
-import ehi1vsc.saxion.twitterapp.MainActivity;
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
-import ehi1vsc.saxion.twitterapp.TweetAdapter;
+        import ehi1vsc.saxion.twitterapp.MainActivity;
+        import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+        import ehi1vsc.saxion.twitterapp.TweetAdapter;
 
 /**
  * Created by Gijs on 6-6-2016.
@@ -78,6 +78,6 @@ public class SearchTweets extends AsyncTask<String, Double, byte[]> {
     }
 
     public ArrayList<Tweet> getTweets() {
-            return tweets;
+        return tweets;
     }
 }
