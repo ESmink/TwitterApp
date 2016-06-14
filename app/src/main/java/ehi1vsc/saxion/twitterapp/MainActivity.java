@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
@@ -17,8 +17,9 @@ import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 public class MainActivity extends AppCompatActivity {
 
-    BearerToken bearerToken;
-    SearchTweets searchTweets = new SearchTweets();
+    public BearerToken bearerToken;
+    public String text;
+    //SearchTweets searchTweets = new SearchTweets();
     ListView listview;
 
     @Override
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchTweets.execute(new String[]{bearerToken.getBearerToken(), query});
+                text = URLEncoder.encode(query);
+                new SearchTweets().execute(MainActivity.this);
                 return true;
             }
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public static void setAdapter(ArrayList<Tweet> tweets){
-
+    public void setSearchTweetsList(ArrayList<Tweet> tweets){
+        listview.setAdapter(new TweetAdapter(getBaseContext(), tweets));
     }
 }
