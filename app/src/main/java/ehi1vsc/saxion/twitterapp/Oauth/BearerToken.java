@@ -16,14 +16,12 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import ehi1vsc.saxion.twitterapp.Ref;
+
 /**
  * Created by Gijs on 31-5-2016.
  */
 public class BearerToken extends AsyncTask<String, Double, byte[]>{
-
-    private final static String API_KEY = "b5NRVMTKd9Y6JXjRlIAOGBnkG";
-    private final static String API_SECRET = "ye1OOYSifhEjvUsR1adfJs4vLyO1Qi7XSRB96wNtHpTP6kGO5q";
-    private final static String CHARSET_UTF_8 = "UTF-8";
     private String bearerToken;
 
     @Override
@@ -37,10 +35,10 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
             conn.setRequestMethod("POST");
 
             // Encode API key and secret
-            String authString = URLEncoder.encode(API_KEY, CHARSET_UTF_8) + ":" + URLEncoder.encode(API_SECRET, CHARSET_UTF_8);
+            String authString = URLEncoder.encode(Ref.API_KEY, Ref.CHARSET_UTF_8) + ":" + URLEncoder.encode(Ref.API_SECRET, Ref.CHARSET_UTF_8);
 
             // Apply Base64 encoding on the encoded string
-            String authStringBase64 = Base64.encodeToString(authString.getBytes(CHARSET_UTF_8), Base64.NO_WRAP);
+            String authStringBase64 = Base64.encodeToString(authString.getBytes(Ref.CHARSET_UTF_8), Base64.NO_WRAP);
 
             // Set headers
             conn.setRequestProperty("Authorization", "Basic " + authStringBase64);
