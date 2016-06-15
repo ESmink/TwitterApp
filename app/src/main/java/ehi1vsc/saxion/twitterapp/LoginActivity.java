@@ -9,6 +9,11 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Verb;
+
+import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -24,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d("heading to ", url);
                 if (url.startsWith("https://www.google")) {
                     Uri uri = Uri.parse(url);
                     Ref.verifier = uri.getQueryParameter("oauth_verifier");
@@ -34,8 +38,20 @@ public class LoginActivity extends AppCompatActivity {
                         protected Object doInBackground(Object[] params) {
                             Ref.accessToken = Model.getInstance().getTwitterService().getAccessToken(
                                     Ref.requestToken, Ref.verifier);
-                            Log.d("access token:" , Ref.accessToken.getToken());
                             return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Object o) {
+                            OAuthRequest request = new OAuthRequest(Verb.GET,
+                                    "https://api.twitter.com/1.1/account/verify_credentials.json",
+                                    Model.getInstance().getTwitterService());
+                            new CommonRequest() {
+                                @Override
+                                public void finished(JSONObject e) {
+                                    Ref.currentUser = Model.getInstance().addUser(new User(e));
+                                }
+                            }.execute(request, getBaseContext());
                         }
                     }.execute();
                     finish();
