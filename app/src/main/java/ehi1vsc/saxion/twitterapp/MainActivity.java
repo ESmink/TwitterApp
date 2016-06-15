@@ -10,6 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Verb;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -25,10 +31,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        JSONreader.readJSON(getBaseContext());
-
         listview = (ListView) findViewById(R.id.listView);
-        listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
+
+        showTimeline();
+    }
+
+    public void showTimeline(){
+
+        if (Ref.currentUser != null) {
+
+            OAuthRequest request = new OAuthRequest(Verb.GET,
+                    "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name= " + Ref.currentUser.getScreen_name() + "&count=10",
+                    Model.getInstance().getTwitterService());
+
+            new CommonRequest() {
+                @Override
+                public void finished(JSONObject e) {
+
+                    try {
+                        ArrayList<Tweet> timeline = new ArrayList<Tweet>();
+
+                        for (int x = 0; e.getJSONArray("statuses").length() > x; x++) {
+                            timeline.add(new Tweet(e.getJSONArray("statuses").getJSONObject(x)));
+                        }
+
+                        listview.setAdapter(new TweetAdapter(getBaseContext(), timeline));
+
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
+            }.execute(request, this);
+        } else {
+            JSONreader.readJSON(getBaseContext());
+            listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
