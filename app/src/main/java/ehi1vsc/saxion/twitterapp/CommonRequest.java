@@ -7,20 +7,18 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Gijs on 14-6-2016.
  */
-public class GetUser extends AsyncTask<Void, Void, String> {
+public abstract class CommonRequest extends AsyncTask<OAuthRequest, OAuthRequest, String> {
 
     @Override
-    protected String doInBackground(Void... params) {
-        
-        OAuthRequest request = new OAuthRequest(Verb.GET,
-                "https://api.twitter.com/1.1/account/verify_credentials.json",
-                Model.getInstance().getTwitterService());
-
+    protected String doInBackground(OAuthRequest... params) {
+        OAuthRequest request = params[0];
         Model.getInstance().getTwitterService().signRequest(Ref.accessToken, request);
-
         Response response = request.send();
         if (response.isSuccessful()) {
             String res = response.getBody();
@@ -31,7 +29,5 @@ public class GetUser extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        UserActivity.setUser(s);
-    }
+    protected abstract void onPostExecute(String s);
 }
