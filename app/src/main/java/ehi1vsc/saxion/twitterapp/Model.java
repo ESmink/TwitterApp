@@ -20,7 +20,7 @@ public class Model {
             .build(new TwitterAPI());
 
     private ArrayList<Tweet> tweets = new ArrayList();
-    private ArrayList<User> users = new ArrayList();
+    public ArrayList<User> users = new ArrayList();
 
     private static Model ourInstance;
 
@@ -48,5 +48,4 @@ public class Model {
         users.add(user);
         return user;
     }
-
 }

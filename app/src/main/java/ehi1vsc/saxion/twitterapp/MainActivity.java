@@ -1,14 +1,20 @@
 package ehi1vsc.saxion.twitterapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Verb;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -31,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
         JSONreader.readJSON(getBaseContext());
 
-        if(Ref.accessToken == null) {
+        if (Ref.accessToken == null) {
             new TwitterOauth().execute(this);
         }
-        if(Ref.bearertoken == null) {
+        if (Ref.bearertoken == null) {
             new BearerToken().execute();
         }
 
-        listview = (ListView)findViewById(R.id.listView);
+        listview = (ListView) findViewById(R.id.listView);
         listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
     }
 
@@ -69,13 +75,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals("to profile")) {
-            Intent intent = new Intent(MainActivity.this, UserActivity.class);
-            startActivity(intent);
+
+            OAuthRequest request = new OAuthRequest(Verb.GET,
+                    "https://api.twitter.com/1.1/account/verify_credentials.json",
+                    Model.getInstance().getTwitterService());
+
+            new CommonRequest() {
+                @Override
+                protected void onPostExecute(String s) {
+                    try {
+                        User user = Model.getInstance().addUser(new User(new JSONObject(s)));
+                        Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                        intent.putExtra("logUser", Model.getInstance().users.indexOf(user));
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute(request);
         }
         return false;
     }
 
-    public void setSearchTweetsList(ArrayList<Tweet> tweets){
+    public void setSearchTweetsList(ArrayList<Tweet> tweets) {
         listview.setAdapter(new TweetAdapter(getBaseContext(), tweets));
     }
 }
