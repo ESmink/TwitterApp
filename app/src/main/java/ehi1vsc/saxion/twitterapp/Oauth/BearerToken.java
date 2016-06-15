@@ -22,7 +22,6 @@ import ehi1vsc.saxion.twitterapp.Ref;
  * Created by Gijs on 31-5-2016.
  */
 public class BearerToken extends AsyncTask<String, Double, byte[]>{
-    private String bearerToken;
 
     @Override
     protected byte[] doInBackground(String... params) {
