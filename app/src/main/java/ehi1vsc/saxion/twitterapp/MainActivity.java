@@ -10,16 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Verb;
-
-import org.json.JSONObject;
-
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
-import ehi1vsc.saxion.twitterapp.Oauth.TwitterOauth;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("logUser", Model.getInstance().users.indexOf(Ref.currentUser));
                 startActivity(intent);
             }else{
-                new TwitterOauth().execute(this);
+                startActivity(new Intent(this, LoginActivity.class));
             }
         }
         return false;
