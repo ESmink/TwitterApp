@@ -5,9 +5,14 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.github.scribejava.core.model.OAuthRequest;
@@ -33,6 +38,29 @@ public class MainActivity extends AppCompatActivity {
 
         listview = (ListView) findViewById(R.id.listView);
 
+        View view = LayoutInflater.from(this).inflate(R.layout.tweetheader, null, false);
+        listview.addHeaderView(view);
+        final EditText text = (EditText)findViewById(R.id.TweetEdit);
+        view.findViewById(R.id.tweetButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (!(text.getText() + "").isEmpty()) {
+
+                    OAuthRequest request = new OAuthRequest(Verb.POST,
+                            "https://api.twitter.com/1.1/statuses/update.json",
+                            Model.getInstance().getTwitterService());
+                    request.addBodyParameter("status", text.getText() + "");
+                    new CommonRequest() {
+                        @Override
+                        public void finished(JSONObject e) {
+                            Log.d("tweet:", e.toString());
+                        }
+                    }.execute(request, MainActivity.this);
+                }
+            }
+        });
+
         showTimeline();
     }
 
@@ -49,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 public void finished(JSONObject e) {
 
                     try {
-                        ArrayList<Tweet> timeline = new ArrayList<Tweet>();
+                        ArrayList<Tweet> timeline = new ArrayList<>();
 
                         for (int x = 0; e.getJSONArray("statuses").length() > x; x++) {
                             timeline.add(new Tweet(e.getJSONArray("statuses").getJSONObject(x)));
