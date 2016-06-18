@@ -30,6 +30,8 @@ public abstract class CommonRequest extends AsyncTask<Object, Object, String> {
             String res = response.getBody();
             Log.d("res ", res);
             return res;
+        }else if(response.getCode() == 401){
+            return "[]";
         }
         return null;
     }
