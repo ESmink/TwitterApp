@@ -30,6 +30,7 @@ import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 public class MainActivity extends AppCompatActivity {
     public String text;
     private ListView listview;
+    private TweetAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         listview = (ListView) findViewById(R.id.listView);
 
-        View view = LayoutInflater.from(this).inflate(R.layout.tweetheader, null, false);
+        View view = LayoutInflater.from(this).inflate(R.layout.tweetheader, listview, false);
         listview.addHeaderView(view);
         final EditText text = (EditText)findViewById(R.id.TweetEdit);
         view.findViewById(R.id.tweetButton).setOnClickListener(new View.OnClickListener() {
@@ -60,8 +61,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        listview.setAdapter(adapter = new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
+        //showTimeline();
+    }
 
-        showTimeline();
+    @Override
+    public void onStart(){
+        //hier komt het laden van tweets in de toekomst
+        JSONreader.readJSON(this);
+        adapter.notifyDataSetChanged();
+        super.onStart();
     }
 
     public void showTimeline(){

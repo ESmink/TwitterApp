@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ehi1vsc.saxion.twitterapp.UserActivity">
+    tools:context="ehi1vsc.saxion.twitterapp.UserActivity"
+    android:minWidth="99999dp">
 
     <ImageView
         android:layout_width="100dp"
@@ -117,12 +118,5 @@
                 android:id="@+id/tv_amountTweets" />
         </LinearLayout>
     </LinearLayout>
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userTweets"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
