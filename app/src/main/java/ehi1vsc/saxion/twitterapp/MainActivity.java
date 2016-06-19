@@ -1,6 +1,7 @@
 package ehi1vsc.saxion.twitterapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 
@@ -28,7 +30,6 @@ import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 public class MainActivity extends AppCompatActivity {
-    public String text;
     private ListView listview;
     private TweetAdapter adapter;
 
@@ -37,11 +38,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //getting existing login
+        SharedPreferences pref = getSharedPreferences("login", MODE_PRIVATE);
+        if(!pref.getString("token", "").equals("")) {
+            Ref.accessToken = new OAuth1AccessToken(pref.getString("token", ""), pref.getString("secret", ""));
+            OAuthRequest request = new OAuthRequest(Verb.GET,
+                    "https://api.twitter.com/1.1/account/verify_credentials.json",
+                    Model.getInstance().getTwitterService());
+            new CommonRequest() {
+                @Override
+                public void finished(JSONObject e) {
+                    Ref.currentUser = Model.getInstance().addUser(new User(e));
+                }
+            }.execute(request, getBaseContext());
+        }else{
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
         listview = (ListView) findViewById(R.id.listView);
 
         View view = LayoutInflater.from(this).inflate(R.layout.tweetheader, listview, false);
         listview.addHeaderView(view);
-        final EditText text = (EditText)findViewById(R.id.TweetEdit);
+        final EditText text = (EditText) findViewById(R.id.TweetEdit);
         view.findViewById(R.id.tweetButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -66,46 +84,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         //hier komt het laden van tweets in de toekomst
         JSONreader.readJSON(this);
         adapter.notifyDataSetChanged();
         super.onStart();
-    }
-
-    public void showTimeline(){
-
-        if (Ref.currentUser != null) {
-
-            OAuthRequest request = new OAuthRequest(Verb.GET,
-                    "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name= " + Ref.currentUser.getScreen_name() + "&count=10",
-                    Model.getInstance().getTwitterService());
-
-            new CommonRequest() {
-                @Override
-                public void finished(JSONObject e) {
-
-                    try {
-                        ArrayList<Tweet> timeline = new ArrayList<>();
-
-                        for (int x = 0; e.getJSONArray("statuses").length() > x; x++) {
-                            timeline.add(new Tweet(e.getJSONArray("statuses").getJSONObject(x)));
-                        }
-
-                        listview.setAdapter(new TweetAdapter(getBaseContext(), timeline));
-
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-
-                }
-            }.execute(request, this);
-        } else {
-            JSONreader.readJSON(getBaseContext());
-            listview.setAdapter(new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
     }
 
     @Override
@@ -118,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                text = URLEncoder.encode(query);
-                new SearchTweets().execute(MainActivity.this);
+                Log.d("searching for: ", URLEncoder.encode(query));
+                new SearchTweets().execute(URLEncoder.encode(query), adapter);
                 return true;
             }
 
@@ -129,24 +112,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         menu.addSubMenu("to profile");
+        menu.addSubMenu("logout");
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals("to profile")) {
-            if(Ref.currentUser != null){
+            if (Ref.currentUser != null) {
                 Intent intent = new Intent(MainActivity.this, UserActivity.class);
                 intent.putExtra("logUser", Model.getInstance().users.indexOf(Ref.currentUser));
                 startActivity(intent);
-            }else{
+            } else {
                 startActivity(new Intent(this, LoginActivity.class));
             }
+        }else if(item.getTitle().equals("logout")){
+            Ref.requestToken = null;
+            Ref.accessToken = null;
+            Ref.verifier = null;
+            Ref.bearertoken = null;
+            Ref.currentUser = null;
+            SharedPreferences.Editor pref = getSharedPreferences("login", MODE_PRIVATE).edit();
+            pref.clear();
+            pref.apply();
+            startActivity(new Intent(this, LoginActivity.class));
         }
         return false;
-    }
-
-    public void setSearchTweetsList(ArrayList<Tweet> tweets) {
-        listview.setAdapter(new TweetAdapter(getBaseContext(), tweets));
     }
 }

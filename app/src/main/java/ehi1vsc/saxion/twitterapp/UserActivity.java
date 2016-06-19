@@ -44,18 +44,11 @@ public class UserActivity extends AppCompatActivity {
         final TweetAdapter adapter = new TweetAdapter(getBaseContext(), Model.getInstance().getTweets());
         listView.setAdapter(adapter);
 
-        OAuthRequest request;
-        if (user.equals(Ref.currentUser)) {
-            request = new OAuthRequest(Verb.GET,
-                    "https://api.twitter.com/1.1/statuses/home_timeline.json",
-                    Model.getInstance().getTwitterService());
-        } else {
-            request = new OAuthRequest(Verb.GET,
+        OAuthRequest request = new OAuthRequest(Verb.GET,
                     "https://api.twitter.com/1.1/statuses/user_timeline.json",
                     Model.getInstance().getTwitterService());
 
-            request.addBodyParameter("user_id", user.getId_str());
-        }
+            request.addParameter("user_id", user.getId_str());
         new CommonRequest() {
 
             @Override

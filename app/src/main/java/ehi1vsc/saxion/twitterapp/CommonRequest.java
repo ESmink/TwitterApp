@@ -40,7 +40,7 @@ public abstract class CommonRequest extends AsyncTask<Object, Object, String> {
         try {
             finished(new JSONObject(s));
         } catch (JSONException | NullPointerException e) {
-            context.startActivity(new Intent(context, LoginActivity.class));
+            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
     }
 

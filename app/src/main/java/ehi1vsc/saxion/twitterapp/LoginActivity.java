@@ -1,5 +1,6 @@
 package ehi1vsc.saxion.twitterapp;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
         web = (WebView) findViewById(R.id.webView);
 
+        //intercepts urls to google, instead gets the token&secret for an access token
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -34,6 +36,11 @@ public class LoginActivity extends AppCompatActivity {
                         protected Object doInBackground(Object[] params) {
                             Ref.accessToken = Model.getInstance().getTwitterService().getAccessToken(
                                     Ref.requestToken, Ref.verifier);
+                            SharedPreferences pref = getSharedPreferences("login", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString("token" , Ref.accessToken.getToken());
+                            editor.putString("secret" , Ref.accessToken.getTokenSecret());
+                            editor.apply();
                             return null;
                         }
 
@@ -55,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-        // requests token aan het eind van de OnCreate
+
+        // requests token so it can load the right url
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... params) {
