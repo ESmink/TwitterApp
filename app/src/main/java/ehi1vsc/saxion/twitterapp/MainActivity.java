@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
 import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new BearerToken().execute(this);
 
         //getting existing login
         SharedPreferences pref = getSharedPreferences("login", MODE_PRIVATE);
@@ -80,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         listview.setAdapter(adapter = new TweetAdapter(getBaseContext(), Model.getInstance().getTweets()));
-        //showTimeline();
     }
 
     @Override

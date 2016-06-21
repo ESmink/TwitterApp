@@ -38,7 +38,7 @@ public class SearchTweets extends AsyncTask<Object, Double, Object> {
 
             // set header
             conn.addRequestProperty("Authorization", "Bearer " + Ref.bearertoken);
-
+            String test = Ref.bearertoken;
             Log.d("responseCode: ", conn.getResponseCode() + "");
 
             // Set body
@@ -56,8 +56,6 @@ public class SearchTweets extends AsyncTask<Object, Double, Object> {
 
             return params[1];
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
