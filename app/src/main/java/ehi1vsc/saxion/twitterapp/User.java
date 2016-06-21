@@ -11,7 +11,7 @@ import org.json.JSONObject;
  * Created by Gijs on 11-5-2016.
  */
 public class User {
-    private String screen_name, name, id_str, profile_image_url, followers_count, friends_count, description;
+    private String screen_name, name, id_str, profile_image_url, followers_count, friends_count, description, statuses_count;
     private Drawable profile_image;
 
     public User(JSONObject jsonObject) {
@@ -23,6 +23,7 @@ public class User {
             friends_count = jsonObject.getString("friends_count");
             description = jsonObject.getString("description");
             profile_image_url = jsonObject.getString("profile_image_url");
+            statuses_count = jsonObject.getString("statuses_count");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -63,5 +64,9 @@ public class User {
 
     public String getDescription(){
         return description;
+    }
+
+    public String getStatuses_count() {
+        return statuses_count;
     }
 }

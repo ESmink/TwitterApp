@@ -33,14 +33,18 @@ public abstract class CommonRequest extends AsyncTask<Object, Object, String> {
         }else if(response.getCode() == 401){
             return "[]";
         }
-        return null;
+        return "errorCode: " + response.getCode();
     }
 
     protected void onPostExecute(String s) {
+        if(s.startsWith("errorCode")){
+            Log.d("NonFatal server error", s);
+            return;
+        }
         try {
             finished(new JSONObject(s));
         } catch (JSONException | NullPointerException e) {
-            context.startActivity(new Intent(context, LoginActivity.class));
+            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
     }
 
