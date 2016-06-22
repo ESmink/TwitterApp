@@ -1,11 +1,16 @@
 package ehi1vsc.saxion.twitterapp.Tweet;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ehi1vsc.saxion.twitterapp.ImageLoader;
 import ehi1vsc.saxion.twitterapp.Model;
 import ehi1vsc.saxion.twitterapp.User;
 
@@ -13,8 +18,9 @@ import ehi1vsc.saxion.twitterapp.User;
  * Created by edwin_000 on 25/04/2016.
  */
 public class Tweet {
-    private String id_str, text;
+    private String id_str, text, image_url;
     private User user;
+    private Drawable tweet_image;
 
     public Tweet(JSONObject jsonObject) {
         try {
@@ -45,6 +51,12 @@ public class Tweet {
             //managing user
             user = Model.getInstance().addUser(new User(jsonObject.getJSONObject("user")));
 
+            //managing media
+            entity = jsonObject.getJSONObject("entities").getJSONArray("media");
+            if (entity.length() > 0) {
+                image_url = entity.getJSONObject(0).getString("media_url_https");
+            }
+
             //merging text with Htmltexts
             for (Htmltext html : htmlList) {
                 text = html.insert(text);
@@ -66,5 +78,17 @@ public class Tweet {
 
     public User getUser() {
         return user;
+    }
+
+    public Drawable getTweet_image(ImageView image, Context context) {
+        if (image_url != null && tweet_image == null) {
+            ImageLoader loader = new ImageLoader();
+            loader.execute(image_url, this, image, context);
+        }
+        return tweet_image;
+    }
+
+    public void setTweet_image(Drawable tweet_image) {
+        this.tweet_image = tweet_image;
     }
 }

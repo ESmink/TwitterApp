@@ -14,35 +14,30 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
-
 /**
- * Created by edwin_000 on 11/05/2016.
+ * Created by edwin_000 on 22/06/2016.
  */
-public class TweetAdapter extends ArrayAdapter<Tweet> {
+public class UserAdapter extends ArrayAdapter<User> {
 
-    public TweetAdapter(Context context, List<Tweet> objects) {
+    public UserAdapter(Context context, List<User> objects) {
         super(context, R.layout.tweetlayout, objects);
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+        final User user = getItem(position);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tweetlayout, parent, false);
         }
 
-        TextView text = (TextView) view.findViewById(R.id.TweetTextTV);
-        text.setText(Html.fromHtml(getItem(position).getText()));
-        text.setAutoLinkMask(Linkify.WEB_URLS);
-
-        ((TextView) view.findViewById(R.id.TweetDisplayTV)).setText(getItem(position).getUser().getScreen_name());
-        ((TextView) view.findViewById(R.id.TweetNameTV)).setText("@" + getItem(position).getUser().getName());
+        ((TextView) view.findViewById(R.id.TweetDisplayTV)).setText(user.getScreen_name());
+        ((TextView) view.findViewById(R.id.TweetNameTV)).setText("@" + user.getName());
 
         ImageView imageView = (ImageView) view.findViewById(R.id.TweetAvatarIV);
-        imageView.setImageDrawable(getItem(position).getUser().getProfile_image(imageView, getContext()));
-        final User user = getItem(position).getUser();
+        imageView.setImageDrawable(user.getProfile_image(imageView, getContext()));
+
         if (Ref.accessToken != null) {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -54,10 +49,6 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
                 }
             });
         }
-
-        ImageView tweetImage = (ImageView) view.findViewById(R.id.TweetIV);
-        tweetImage.setImageDrawable(getItem(position).getTweet_image(tweetImage, getContext()));
-
         return view;
     }
 }
