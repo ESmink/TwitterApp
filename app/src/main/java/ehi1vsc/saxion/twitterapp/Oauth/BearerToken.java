@@ -1,5 +1,7 @@
 package ehi1vsc.saxion.twitterapp.Oauth;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Base64;
 
@@ -21,12 +23,10 @@ import ehi1vsc.saxion.twitterapp.Ref;
 /**
  * Created by Gijs on 31-5-2016.
  */
-public class BearerToken extends AsyncTask<String, Double, byte[]>{
-    private String bearerToken;
+public class BearerToken extends AsyncTask<Context, Void, Void>{
 
     @Override
-    protected byte[] doInBackground(String... params) {
-        byte[] body = new byte[0];
+    protected Void doInBackground(Context ... params) {
         try {
 
             // Prepare request
@@ -46,7 +46,7 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
 
             // Set body
             conn.setDoOutput(true);
-            body = "grant_type=client_credentials".getBytes("UTF-8");
+            byte[] body = "grant_type=client_credentials".getBytes("UTF-8");
             conn.setFixedLengthStreamingMode(body.length);
             BufferedOutputStream os = new BufferedOutputStream(conn.getOutputStream());
             os.write(body);
@@ -55,8 +55,13 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
             // get bearertoken
             InputStream inputStream = conn.getInputStream();
             String response = IOUtils.toString(inputStream, "UTF-8");
-            bearerToken = (String) new JSONObject(response).get("access_token");
+            Ref.bearertoken = (String) new JSONObject(response).get("access_token");
             IOUtils.closeQuietly(inputStream);
+
+            // save bearertoken for later
+            SharedPreferences.Editor editor = params[0].getSharedPreferences("login", Context.MODE_PRIVATE).edit();
+            editor.putString("bearer", Ref.bearertoken);
+            editor.apply();
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -67,11 +72,8 @@ public class BearerToken extends AsyncTask<String, Double, byte[]>{
         } catch (IOException io) {
             io.printStackTrace();
         } finally {
-            return body;
+            return null;
         }
     }
 
-    public String getBearerToken() {
-        return bearerToken;
-    }
 }
