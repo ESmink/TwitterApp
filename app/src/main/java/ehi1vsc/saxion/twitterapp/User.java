@@ -50,6 +50,11 @@ public class User {
         return profile_image;
     }
 
+    public void setProfile_image_url(String profile_image_url) {
+        this.profile_image_url = profile_image_url;
+        profile_image = null;
+    }
+
     public void setProfile_image(Drawable profile_image) {
         this.profile_image = profile_image;
     }

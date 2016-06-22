@@ -4,7 +4,9 @@ import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ehi1vsc.saxion.twitterapp.Oauth.TwitterAPI;
 import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
@@ -20,7 +22,7 @@ public class Model {
             .build(new TwitterAPI());
 
     private ArrayList<Tweet> tweets = new ArrayList();
-    public ArrayList<User> users = new ArrayList();
+    private Map<String, User> users = new HashMap<>();
 
     private static Model ourInstance;
 
@@ -39,13 +41,25 @@ public class Model {
         return tweets;
     }
 
-    public User addUser(User user) {
-        for (User current : users) {
-            if (user.getId_str().equals(current.getId_str())) {
-                return current;
-            }
+    public Map<String, User> getUsers() {
+        return users;
+    }
+
+    public User addUser(User user){
+        if (!users.containsKey(user.getId_str())) {
+            users.put(user.getId_str(), user);
+            return user;
         }
-        users.add(user);
         return user;
     }
+
+//    public User addUser(User user) {
+//        for (User current : users) {
+//            if (user.getId_str().equals(current.getId_str())) {
+//                return current;
+//            }
+//        }
+//        users.add(user);
+//        return user;
+//    }
 }
