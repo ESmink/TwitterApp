@@ -136,6 +136,8 @@ public class UserActivity extends AppCompatActivity {
                 }
             }.execute(request, this);
         }
+        menu.add("view Friends");
+        menu.add("view Followers");
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -177,6 +179,18 @@ public class UserActivity extends AppCompatActivity {
                 request = new OAuthRequest(Verb.POST,
                         "https://api.twitter.com/1.1/blocks/destroy.json",
                         Model.getInstance().getTwitterService());
+                break;
+            case "view Friends":
+                Intent intent = new Intent(this, FollowerActivity.class);
+                intent.putExtra("mode", FollowerActivity.FRIEND);
+                intent.putExtra("id", user.getId_str());
+                startActivity(intent);
+                break;
+            case "view Followers":
+                intent = new Intent(this, FollowerActivity.class);
+                intent.putExtra("mode", FollowerActivity.FOLLOWER);
+                intent.putExtra("id", user.getId_str());
+                startActivity(intent);
         }
         if (request != null) {
             request.addParameter("user_id", user.getId_str());

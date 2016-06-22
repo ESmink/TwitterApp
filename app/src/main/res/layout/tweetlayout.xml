@@ -42,4 +42,10 @@
         android:id="@+id/TweetTextTV"
         android:textSize="20dp" />
 
+    <ImageView
+        android:layout_width="394dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/TweetIV"
+        android:minWidth="999999dp" />
+
 </LinearLayout>

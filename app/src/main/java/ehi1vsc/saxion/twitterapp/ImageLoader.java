@@ -10,26 +10,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+
 /**
  * Created by edwin_000 on 11/05/2016.
  */
-public class ImageLoader extends AsyncTask {
-    private Drawable image;
-    private User user;
+public class ImageLoader extends AsyncTask<Object, Object, Drawable> {
+    private Object parent;
     private ImageView view;
-    private Context context;
 
     @Override
-    protected Object doInBackground(Object[] params) {
+    protected Drawable doInBackground(Object[] params) {
         String url = (String) params[0];
-        user = (User) params[1];
+        parent = params[1];
         view = (ImageView) params[2];
-        context = (Context) params[3];
+        Context context = (Context) params[3];
         try {
             InputStream is = (InputStream) new URL(url).getContent();
-            image = Drawable.createFromStream(is, "");
+            return Drawable.createFromStream(is, "");
         } catch (FileNotFoundException e) {
-            image = context.getResources().getDrawable(R.drawable.crashphoto);
+            if (parent instanceof User) {
+                return context.getResources().getDrawable(R.drawable.crashphoto);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,8 +39,14 @@ public class ImageLoader extends AsyncTask {
     }
 
     @Override
-    protected void onPostExecute(Object o) {
-        user.setProfile_image(image);
-        view.setImageDrawable(image);
+    protected void onPostExecute(Drawable o) {
+        if (o != null) {
+            if (parent instanceof User) {
+                ((User) parent).setProfile_image(o);
+            } else {
+                ((Tweet) parent).setTweet_image(o);
+            }
+            view.setImageDrawable(o);
+        }
     }
 }
