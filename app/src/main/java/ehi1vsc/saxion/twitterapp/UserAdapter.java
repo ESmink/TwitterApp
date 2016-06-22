@@ -43,7 +43,7 @@ public class UserAdapter extends ArrayAdapter<User> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), UserActivity.class);
-                    intent.putExtra("logUser", Model.getInstance().users.indexOf(user));
+                    intent.putExtra("logUser", user.getId_str());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     getContext().startActivity(intent);
                 }
