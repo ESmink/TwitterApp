@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getTitle().equals("to profile")) {
             if (Ref.currentUser != null) {
                 Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                intent.putExtra("logUser", Model.getInstance().users.indexOf(Ref.currentUser));
+                intent.putExtra("logUser", Ref.currentUser.getId_str());
                 startActivity(intent);
             } else {
                 startActivity(new Intent(this, LoginActivity.class));
