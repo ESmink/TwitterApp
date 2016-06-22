@@ -37,7 +37,7 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        user = Model.getInstance().users.get(intent.getIntExtra("logUser", -1));
+        user = Model.getInstance().getUsers().get(intent.getStringExtra("logUser"));
 
         ListView listView = (ListView) findViewById(R.id.listView);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_user, listView, false);
@@ -213,13 +213,14 @@ public class UserActivity extends AppCompatActivity {
                     @Override
                     public void finished(JSONObject e) {
                         //reloads user definition & reloads profilePicture
-                        Ref.currentUser = new User(e);
-                        Model.getInstance().users.set(
-                                Model.getInstance().users.indexOf(user), Ref.currentUser);
-                        profilePicture.setImageDrawable(
-                                Ref.currentUser.getProfile_image(profilePicture,
-                                        UserActivity.this));
-
+                        try {
+                            Ref.currentUser.setProfile_image_url(e.getString("profile_image_url"));
+                            profilePicture.setImageDrawable(
+                                    Ref.currentUser.getProfile_image(profilePicture,
+                                            UserActivity.this));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }.execute(request, this);
 
