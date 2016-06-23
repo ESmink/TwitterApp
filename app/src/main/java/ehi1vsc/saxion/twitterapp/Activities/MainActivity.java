@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,24 +12,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.github.scribejava.core.model.OAuth1AccessToken;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
-import ehi1vsc.saxion.twitterapp.Oauth.BearerToken;
-import ehi1vsc.saxion.twitterapp.Oauth.SearchTweets;
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+import ehi1vsc.saxion.twitterapp.Model.JSONreader;
+import ehi1vsc.saxion.twitterapp.Model.Adapters.TweetAdapter;
+import ehi1vsc.saxion.twitterapp.Model.Model;
+import ehi1vsc.saxion.twitterapp.Model.Ref;
+import ehi1vsc.saxion.twitterapp.Model.User;
+import ehi1vsc.saxion.twitterapp.R;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.BearerToken;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.CommonRequest;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.SearchTweets;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listview;

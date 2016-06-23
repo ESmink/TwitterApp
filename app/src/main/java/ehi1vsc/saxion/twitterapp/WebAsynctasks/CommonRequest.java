@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.WebAsynctasks;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,10 @@ import com.github.scribejava.core.model.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import ehi1vsc.saxion.twitterapp.Activities.LoginActivity;
+import ehi1vsc.saxion.twitterapp.Model.Model;
+import ehi1vsc.saxion.twitterapp.Model.Ref;
 
 /**
  * Created by Gijs on 14-6-2016.

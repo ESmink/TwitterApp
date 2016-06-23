@@ -1,9 +1,8 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.ListView;
 
 import com.github.scribejava.core.model.OAuthRequest;
@@ -14,6 +13,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import ehi1vsc.saxion.twitterapp.Model.Adapters.UserAdapter;
+import ehi1vsc.saxion.twitterapp.Model.Model;
+import ehi1vsc.saxion.twitterapp.Model.User;
+import ehi1vsc.saxion.twitterapp.R;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.CommonRequest;
 
 public class FollowerActivity extends AppCompatActivity {
     private ArrayList<User> users = new ArrayList<>();
@@ -42,7 +47,7 @@ public class FollowerActivity extends AppCompatActivity {
                     "https://api.twitter.com/1.1/friends/list.json",
                     Model.getInstance().getTwitterService());
         }
-        request.addParameter("user_id", Model.getInstance().getUsers().get(intent.getStringExtra("id")).toString());
+        request.addParameter("user_id", intent.getStringExtra("id"));
 
         new CommonRequest() {
             @Override

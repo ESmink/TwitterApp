@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp.Oauth;
+package ehi1vsc.saxion.twitterapp.WebAsynctasks;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +18,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import ehi1vsc.saxion.twitterapp.Ref;
+import ehi1vsc.saxion.twitterapp.Model.Ref;
 
 /**
  * Created by Gijs on 31-5-2016.

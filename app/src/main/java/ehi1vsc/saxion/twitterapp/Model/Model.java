@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Model;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth10aService;
@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ehi1vsc.saxion.twitterapp.Oauth.TwitterAPI;
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.TwitterAPI;
 
 /**
  * Created by edwin_000 on 25/04/2016.
@@ -53,13 +52,4 @@ public class Model {
         return user;
     }
 
-//    public User addUser(User user) {
-//        for (User current : users) {
-//            if (user.getId_str().equals(current.getId_str())) {
-//                return current;
-//            }
-//        }
-//        users.add(user);
-//        return user;
-//    }
 }

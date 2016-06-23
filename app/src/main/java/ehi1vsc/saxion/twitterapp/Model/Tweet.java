@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp.Tweet;
+package ehi1vsc.saxion.twitterapp.Model;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,10 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import ehi1vsc.saxion.twitterapp.ImageLoader;
-import ehi1vsc.saxion.twitterapp.Model;
-import ehi1vsc.saxion.twitterapp.User;
 
 /**
  * Created by edwin_000 on 25/04/2016.

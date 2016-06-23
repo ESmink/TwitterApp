@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Model;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
 
 /**
  * Created by edwin_000 on 25/04/2016.
@@ -50,6 +48,7 @@ public class JSONreader {
         return sb.toString();
     }
 
+    //tries reading provided JSON file
     public static void readJSON(Context context) {
         try {
             JSONObject object = new JSONObject(readAssetIntoString("tweets.json", context));

@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Model;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ehi1vsc.saxion.twitterapp.UserActivity"
+    tools:context=".Activities.UserActivity"
     android:minWidth="99999dp">
 
     <ImageView
