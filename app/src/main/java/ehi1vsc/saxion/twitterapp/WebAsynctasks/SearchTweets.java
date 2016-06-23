@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp.Oauth;
+package ehi1vsc.saxion.twitterapp.WebAsynctasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -10,15 +10,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import ehi1vsc.saxion.twitterapp.MainActivity;
-import ehi1vsc.saxion.twitterapp.Model;
-import ehi1vsc.saxion.twitterapp.Ref;
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
-import ehi1vsc.saxion.twitterapp.TweetAdapter;
+import ehi1vsc.saxion.twitterapp.Model.Model;
+import ehi1vsc.saxion.twitterapp.Model.Adapters.TweetAdapter;
+import ehi1vsc.saxion.twitterapp.Model.Ref;
+import ehi1vsc.saxion.twitterapp.Model.Tweet;
 
 /**
  * Created by Gijs on 6-6-2016.

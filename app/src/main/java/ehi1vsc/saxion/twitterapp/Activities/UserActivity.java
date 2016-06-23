@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,7 +25,13 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import ehi1vsc.saxion.twitterapp.Tweet.Tweet;
+import ehi1vsc.saxion.twitterapp.Model.Adapters.TweetAdapter;
+import ehi1vsc.saxion.twitterapp.Model.Model;
+import ehi1vsc.saxion.twitterapp.Model.Ref;
+import ehi1vsc.saxion.twitterapp.Model.Tweet;
+import ehi1vsc.saxion.twitterapp.Model.User;
+import ehi1vsc.saxion.twitterapp.R;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.CommonRequest;
 
 public class UserActivity extends AppCompatActivity {
     User user;

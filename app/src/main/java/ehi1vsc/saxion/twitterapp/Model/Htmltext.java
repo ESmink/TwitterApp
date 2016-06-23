@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp.Tweet;
+package ehi1vsc.saxion.twitterapp.Model;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import java.util.List;
 public class Htmltext {
     private String text;
     private int start, end;
+    //a simple class for handling the adding of html to a text
 
     public Htmltext(String text, int start, int end) {
         this.text = text;
@@ -19,6 +20,8 @@ public class Htmltext {
         return text.substring(0, start) + this.text + text.substring(end);
     }
 
+    //this method adds the class to a list of its type.
+    // it always attempts to sort itself on farthest start-value
     public void addToList(List<Htmltext> list) {
         int current = 0;
         for (Htmltext other : list) {

@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp;
+package ehi1vsc.saxion.twitterapp.Activities;
 
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,6 +12,12 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 
 import org.json.JSONObject;
+
+import ehi1vsc.saxion.twitterapp.Model.Model;
+import ehi1vsc.saxion.twitterapp.Model.Ref;
+import ehi1vsc.saxion.twitterapp.Model.User;
+import ehi1vsc.saxion.twitterapp.R;
+import ehi1vsc.saxion.twitterapp.WebAsynctasks.CommonRequest;
 
 public class LoginActivity extends AppCompatActivity {
     private WebView web;

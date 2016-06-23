@@ -1,4 +1,4 @@
-package ehi1vsc.saxion.twitterapp.Oauth;
+package ehi1vsc.saxion.twitterapp.WebAsynctasks;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.OAuth1RequestToken;
