@@ -19,14 +19,16 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
 
-import ehi1vsc.saxion.twitterapp.Model.JSONreader;
 import ehi1vsc.saxion.twitterapp.Model.Adapters.TweetAdapter;
 import ehi1vsc.saxion.twitterapp.Model.Model;
 import ehi1vsc.saxion.twitterapp.Model.Ref;
+import ehi1vsc.saxion.twitterapp.Model.Tweet;
 import ehi1vsc.saxion.twitterapp.Model.User;
 import ehi1vsc.saxion.twitterapp.R;
 import ehi1vsc.saxion.twitterapp.WebAsynctasks.BearerToken;
@@ -89,11 +91,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        //hier komt het laden van tweets in de toekomst
-        JSONreader.readJSON(this);
-        adapter.notifyDataSetChanged();
-        super.onStart();
+    public void onResume() {
+        //JSONreader.readJSON(this);
+
+        OAuthRequest request = new OAuthRequest(Verb.GET,
+                "https://api.twitter.com/1.1/statuses/home_timeline.json",
+                Model.getInstance().getTwitterService());
+
+        new CommonRequest() {
+
+            @Override
+            protected void onPostExecute(String s) {
+                try {
+                    JSONArray jsonArray = new JSONArray(s);
+                    Log.d("JSONARRAY", jsonArray.toString());
+                    Model.getInstance().getTweets().clear();
+                    for (int x = 0; jsonArray.length()  > x; x++) {
+                        Model.getInstance().getTweets().add(new Tweet(jsonArray.getJSONObject(x)));
+                    }
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void finished(JSONObject e) {
+
+            }
+        }.execute(request, MainActivity.this);
+
+
+        super.onResume();
     }
 
     @Override
